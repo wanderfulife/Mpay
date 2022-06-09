@@ -1,24 +1,27 @@
-import { Text, Button, SafeAreaView, View, TouchableOpacity, Image, StyleSheet } from 'react-native'
-import React, { useLayoutEffect, useRef } from 'react'
+import { Text, SafeAreaView, View, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import React, { useRef, useState, useLayoutEffect } from 'react'
 import { useNavigation } from '@react-navigation/core'
 import useAuth from '../hooks/useAuth'
 import tw from 'twrnc'
-import { AntDesign, Entypo, Ionicons } from "@expo/vector-icons"
+import { Entypo, Ionicons } from "@expo/vector-icons"
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Swiper from "react-native-deck-swiper"
+import { doc, onSnapshot } from 'firebase/firestore'
+import { db } from '../firebase'
+
 
 export const DUMMY_DATA = [
 	{
 		firstName: "Waldeck",
 		lastName : "Ray",
 		occupation : "Manager",
-		photoURL : "https://instagram.fsyd5-1.fna.fbcdn.net/v/t51.2885-15/271488792_971943813462506_5760556957299882870_n.jpg?stp=dst-jpg_e35_p640x640_sh0.08&_nc_ht=instagram.fsyd5-1.fna.fbcdn.net&_nc_cat=102&_nc_ohc=Ouzc0sRgnCwAX-4IlKf&edm=ALQROFkBAAAA&ccb=7-5&ig_cache_key=Mjc0NjM2ODU0OTQxNTkzNzA3Ng%3D%3D.2-ccb7-5&oh=00_AT_mGP57y4XFpvG7AnILAkpdbEeIeupOPvZylHRgy9IiFA&oe=62906EFF&_nc_sid=30a2ef",
+		photoURL : "https://instagram.fsyd5-1.fna.fbcdn.net/v/t51.2885-15/180681401_480991219837879_6452635307193870572_n.jpg?stp=dst-jpg_e35_s640x640_sh0.08&_nc_ht=instagram.fsyd5-1.fna.fbcdn.net&_nc_cat=107&_nc_ohc=gc5ToQIZcjMAX8Jr38_&tn=scaWiMeSuzA7mNI4&edm=ALQROFkBAAAA&ccb=7-5&ig_cache_key=MjU2NTE3ODUzODQ4MjAxMTU2MA%3D%3D.2-ccb7-5&oh=00_AT_zvKaBrADi4a7qOzECRQizyBRQT2ji_3pZ4eDPEi5gfg&oe=629E6E28&_nc_sid=30a2ef",
 		age : 32,
 		id : 123
 	},
 	{
 		firstName: "Annabelle",
-		lastName : "De Barroszer",
+		lastName : "De Barros",
 		occupation : "Floor Manager",
 		photoURL : "https://scontent.fsyd5-1.fna.fbcdn.net/v/t1.18169-9/480524_4247239453263_285297353_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=de6eea&_nc_ohc=LYMXfLzfa9kAX9ODEr5&tn=gl0y96iNgmUCX24i&_nc_ht=scontent.fsyd5-1.fna&oh=00_AT_KcHm4m9RtMPvCFRxz1IQTSKAIDp0kZFSm616R13302w&oe=62AE3241",
 		age : 12,
@@ -44,7 +47,7 @@ export const DUMMY_DATA = [
 		firstName: "Mathilde",
 		lastName : "Dominique",
 		occupation : "Waitress",
-		photoURL : "https://instagram.fsyd5-1.fna.fbcdn.net/v/t51.2885-15/72532315_139569797327631_1027811079743607424_n.jpg?stp=dst-jpg_e35&_nc_ht=instagram.fsyd5-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=N6wJvwzip0MAX8BII6q&edm=ALQROFkBAAAA&ccb=7-5&ig_cache_key=MjE0OTUxMDExODY4ODU0NDU1NA%3D%3D.2-ccb7-5&oh=00_AT_bAFBEe0AJF638ADaCpkn3EtLUxeawAkdL8qtiWa0G_g&oe=6292229E&_nc_sid=30a2ef",
+		photoURL : "https://instagram.fsyd5-1.fna.fbcdn.net/v/t51.2885-15/72532315_139569797327631_1027811079743607424_n.jpg?stp=dst-jpg_e35&_nc_ht=instagram.fsyd5-1.fna.fbcdn.net&_nc_cat=103&_nc_ohc=uWb-HIGiNcQAX9lGrKZ&edm=ALQROFkBAAAA&ccb=7-5&ig_cache_key=MjE0OTUxMDExODY4ODU0NDU1NA%3D%3D.2-ccb7-5&oh=00_AT_PnkqUQRZE711FmbxFCilR3vJQHxatGDqpaTlr58V_PA&oe=629E001E&_nc_sid=30a2ef",
 		age : 23,
 		id : 789
 	},
@@ -72,10 +75,18 @@ const HomeScreen = () => {
 
 	const navigation = useNavigation();
 	const {user, logout } = useAuth();
+	const [profiles , setProfiles] = useState([]);
 	const swipeRef = useRef(null);
 
-
-
+	useLayoutEffect(
+		() => 
+		onSnapshot(doc(db, 'users', user.uid), snapshot => {
+		  if (!snapshot.exists()) {
+			  navigation.navigate("Modal");
+		  }
+	  }),
+	 []
+	)
 
 	return (
 	<SafeAreaView style={tw`flex-1`}>
@@ -83,7 +94,7 @@ const HomeScreen = () => {
 		{/* header */}
 		<View style={tw`flex-row items-center justify-between px-5`}>
 			<TouchableOpacity onPress={logout}>
-				<Image style={tw`h-10 w-10 rounded-full`} source={{uri:"https://instagram.fsyd5-1.fna.fbcdn.net/v/t51.2885-15/283346331_1007706799929558_7531566825738411971_n.jpg?stp=dst-jpg_e35_p750x750_sh0.08&_nc_ht=instagram.fsyd5-1.fna.fbcdn.net&_nc_cat=106&_nc_ohc=kq38494yq2kAX9tvIVC&tn=1qWg8LadzTAUevzR&edm=ALQROFkBAAAA&ccb=7-5&ig_cache_key=Mjg0NDMzMTcyMzQyNjg5Mjc5MQ%3D%3D.2-ccb7-5&oh=00_AT-M2bQxjX4M7_xPmLsIvqyIP7x8aHpD8UVIhayzh_fhWA&oe=6294270F&_nc_sid=30a2ef"}} />
+				<Image style={tw`h-10 w-10 rounded-full`} source={require("../assets/IMG_9320.jpg")} />
 			</TouchableOpacity>
 
 			<TouchableOpacity onPress={()=> navigation.navigate("Modal")}>
@@ -107,7 +118,7 @@ const HomeScreen = () => {
 	  <Swiper 
 	  ref={swipeRef}
 	  containerStyle={{ backgroundColor: "transparent" }}
-	  cards={DUMMY_DATA}
+	  cards={profiles}
 	  stackSize={5}
 	  cardIndex={0}
 	  animateCardOpacity
@@ -138,7 +149,7 @@ const HomeScreen = () => {
 			},
 		}
 	  }}
-	  renderCard={(card)=> (
+	  renderCard={(card)=> card ?(
 		  <View key={card.id} style={tw`relative bg-white h-3/4 rounded-xl`}>
 			  <Image 
 			  style={tw`absolute top-0 h-full w-full rounded-xl`} 
@@ -146,7 +157,8 @@ const HomeScreen = () => {
 			  <View style={[tw`absolute bottom-0 bg-white w-full flex-row items-center justify-between
 			    h-20 px-6 py-2 rounded-b-xl`,
 				styles.cardShadow
-				]}>
+				]}
+				>
 				  <View>
 					  <Text style={tw`text-xl font-bold`}>{card.firstName} {card.lastName}</Text>
 					  <Text>
@@ -156,9 +168,25 @@ const HomeScreen = () => {
 				  <Text style={tw`text-xl font-bold`}>{card.age}</Text>
 			  </View>
 		  </View>
+		) : (
+			<View
+			style={[tw`relative bg-white h-3/4 rounded-xl justify-center items-center`,
+			styles.cardShadow,
+			]}
+			>
+			<Text style={tw`font-bold pb-5`}>No more profiles</Text>
+
+			<Image
+				style={tw`h-20 w-full`}
+				height={100}
+				width={100}
+				source={{ uri: "https://links.papareact.com/6gb" }}
+			/>
+			</View>
 		)}
 		  />
 	</View>
+
 	<View style={tw`flex flex-row justify-evenly`}>
 		<TouchableOpacity
 		onPress={() => swipeRef.current.swipeLeft()}

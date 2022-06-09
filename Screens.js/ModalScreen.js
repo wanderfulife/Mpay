@@ -1,31 +1,52 @@
-import { View, Image, Text, TextInput, TouchableOpacity } from 'react-native'
+import { View, Image, Text, TextInput, TouchableOpacity, Button } from 'react-native'
 import { doc, serverTimestamp, setDoc } from "@firebase/firestore"
 import { db } from "../firebase"
 import React, { useState } from 'react'
 import tw from 'twrnc'
 import useAuth from '../hooks/useAuth'
 import { useNavigation } from '@react-navigation/core'
+import * as ImagePicker from 'expo-image-picker';
 
 
 
 const ModalScreen = () => {
 
+
+
 const navigation = useNavigation()
 const { user } = useAuth();
-const [image, setImage] = useState();
+const [image, setImage] = useState(null);
 const [job, setJob] = useState();
 const [age, setAge] = useState();
 const [name, setName] = useState();
 
-const incompleteForm = !image || !job || !age || !name;
+const incompleteForm =  !job || !age || !name;
 
 //shorturl.at/vKRSZ
+
+const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+	console.log(result);
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
+
 
 
 const updateUserProfile = () => {
 	setDoc(doc(db,'users', user.uid), {
-		id: user.id,
-		displayName: user.displayName,
+		id: user.uid,
+		displayName: name,
 		photoURL: image,
 		job: job,
 		age: age,
@@ -51,12 +72,10 @@ const updateUserProfile = () => {
 	  <Text style={tw`text-center p-4 font-bold text-red-400`}>
 		Step 1: The Profile Picture
 	  </Text>
-	  <TextInput 
-	  	value={image}
-		onChangeText={setImage}
-	  	style={tw`text-center text-xl pb-2`}
-		placeholder="Enter a profile picture"
-	  />
+	
+
+<Button title="Pick an image from camera roll" onPress={setImage} />
+      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
 
 <Text style={tw`text-center p-4 font-bold text-red-400`}>
 		Step 2: The Age

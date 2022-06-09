@@ -7,12 +7,11 @@ const AuthContext = createContext({});
 
 
 export const AuthProvider = ({children}) => {
+
 const [error, setError] = useState(null)
 const [user, setUser] = useState(null);
 const [loadingInitial, setLoadingInitial] = useState(true);
 const [loading, setLoading] = useState(false)
-
-
 
 
 useEffect(
@@ -20,6 +19,7 @@ useEffect(
     auth.onAuthStateChanged( user => {
       if (user) {
         setUser(user);
+		console.log(user.uid)
       } else {
 		setUser(null);
 	  }
@@ -47,8 +47,7 @@ useEffect(
 	   auth
 	   .signInWithEmailAndPassword(email, password)
 	   .catch(error => alert(error.message))
-		.finally(() => setLoading(false))
-
+		.finally(() => setLoading(false));
 	}
 
 	const memoedValue = useMemo(() => ({
@@ -64,7 +63,7 @@ useEffect(
 	<AuthContext.Provider 
 	value={memoedValue}
 		>
-	  {children}
+	  {!loadingInitial && children}
 	</AuthContext.Provider>
   )
 };

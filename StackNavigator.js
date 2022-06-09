@@ -5,6 +5,7 @@ import ChatScreen from './Screens.js/ChatScreen';
 import LoginScreen from './Screens.js/LoginScreen';
 import useAuth from './hooks/useAuth';
 import ModalScreen from './Screens.js/ModalScreen';
+import SignUpScreen from './Screens.js/SignUpScreen';
 
 
 
@@ -30,7 +31,10 @@ const StackNavigator = () => {
 			</Stack.Group>
 			</>
 		) : (
+			<>
 			<Stack.Screen name="Login" component={LoginScreen} />
+			<Stack.Screen name="Signup" component={SignUpScreen} />
+			</>	
 		)}
 	</Stack.Navigator>
   )
