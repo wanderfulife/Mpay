@@ -6,6 +6,7 @@ import LoginScreen from './Screens.js/LoginScreen';
 import useAuth from './hooks/useAuth';
 import ModalScreen from './Screens.js/ModalScreen';
 import SignUpScreen from './Screens.js/SignUpScreen';
+import MatchedScreen from './Screens.js/MatchedScreen'
 
 
 
@@ -28,6 +29,9 @@ const StackNavigator = () => {
 			</Stack.Group>
 			<Stack.Group screenOptions={{ presentation: "modal"}}>
 				<Stack.Screen name="Modal" component={ModalScreen} />
+			</Stack.Group>
+			<Stack.Group screenOptions={{ presentation: "transparentModal"}}>
+				<Stack.Screen name="Match" component={MatchedScreen} />
 			</Stack.Group>
 			</>
 		) : (

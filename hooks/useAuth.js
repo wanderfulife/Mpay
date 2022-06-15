@@ -19,7 +19,7 @@ useEffect(
     auth.onAuthStateChanged( user => {
       if (user) {
         setUser(user);
-		console.log(user.uid)
+		console.log(`user.uid : ${user.uid}`)
       } else {
 		setUser(null);
 	  }

@@ -24,21 +24,21 @@ const incompleteForm =  !job || !age || !name;
 
 //shorturl.at/vKRSZ
 
-const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
+// const pickImage = async () => {
+//     // No permissions request is necessary for launching the image library
+//     let result = await ImagePicker.launchImageLibraryAsync({
+//       mediaTypes: ImagePicker.MediaTypeOptions.All,
+//       allowsEditing: true,
+//       aspect: [4, 3],
+//       quality: 1,
+//     });
 
-	console.log(result);
+// 	console.log(result);
 
-    if (!result.cancelled) {
-      setImage(result.uri);
-    }
-  };
+//     if (!result.cancelled) {
+//       setImage(result.uri);
+//     }
+//   };
 
 
 
@@ -73,9 +73,13 @@ const updateUserProfile = () => {
 		Step 1: The Profile Picture
 	  </Text>
 	
+	  <TextInput 
+	  value={image}
+	  onChangeText={setImage}
+	  	style={tw`text-center text-xl pb-2`}
+		placeholder="Enter your imageURL"
 
-<Button title="Pick an image from camera roll" onPress={setImage} />
-      {image && <Image source={{ uri: image }} style={{ width: 200, height: 200 }} />}
+	  />
 
 <Text style={tw`text-center p-4 font-bold text-red-400`}>
 		Step 2: The Age
@@ -88,6 +92,7 @@ const updateUserProfile = () => {
 		maxLength={2}
 		keyboardType="numeric"
 	  />
+	  {/* shorturl.at/grvCK */}
 
 <Text style={tw`text-center p-4 font-bold text-red-400`}>
 		Step 3: The Name
