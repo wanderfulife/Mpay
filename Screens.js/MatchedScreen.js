@@ -17,7 +17,7 @@ const MatchedScreen = () => {
 	  <View style={tw`justify-center px-10 pt-20`}>
 		  <Image 
 		  style={tw`h-20 w-full rounded-full`} 
-		  source={{uri: "https://links.papareact.com/mg9"}}/>
+		  source={require('../assets/its-a-match.webp')}/>
 	  </View>
 	  <Text style={tw`text-white text-center mt-5`}>
 			You and {userSwiped.displayName} may be working toguether soon.

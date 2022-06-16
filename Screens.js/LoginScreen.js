@@ -16,7 +16,7 @@ const navigation = useNavigation();
 	return (
 		 <View style={tw`flex-1`}>
 			<ImageBackground resizeMode='cover' style={tw`flex-1`} source={require("../assets/IMG_9325.jpg")}>
-			<KeyboardAvoidingView behavior='padding' style={[tw`absolute bottom-50 `, {marginHorizontal: "23%"}]}>
+			<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={10} style={[tw`absolute bottom-70 `, {marginHorizontal: "23%"}]}>
 			<TextInput style={tw`text-center bg-white p-4 m-1 rounded-2xl w-50 font-semibold`}
 			  placeholder="Email"
 			  value={email}
@@ -31,7 +31,8 @@ const navigation = useNavigation();
 	
 			<TouchableOpacity 
 			  onPress={() => {
-				handleLogin(email,password)
+				handleLogin(email,password);
+
 			  }}
 			>
 			  <Text style={tw`text-center p-2 text-white font-bold m-1`}>Login</Text>
