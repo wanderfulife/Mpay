@@ -8,21 +8,21 @@ const LoginScreen = () => {
 
 const [email, setEmail] = useState('');
 const [password, setPassword] = useState('');
-const { handleLogin, handleSignUp } = useAuth();
+const { handleLogin } = useAuth();
 const navigation = useNavigation();
 
 
  
 	return (
 		 <View style={tw`flex-1`}>
-			<ImageBackground resizeMode='cover' style={tw`flex-1`} source={require("../assets/IMG_9325.jpg")}>
+			<ImageBackground resizeMode='cover' style={tw`flex-1`} source={require("../assets/IMG_9478.jpg")}>
 			<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={10} style={[tw`absolute bottom-70 `, {marginHorizontal: "23%"}]}>
-			<TextInput style={tw`text-center bg-white p-4 m-1 rounded-2xl w-50 font-semibold`}
+			<TextInput style={tw`text-center bg-white p-4  rounded-2xl w-50 font-semibold`}
 			  placeholder="Email"
 			  value={email}
 			  onChangeText={text => setEmail(text)}
 			/>
-			<TextInput style={tw`text-center bg-white p-4 m-1 rounded-2xl w-50 font-semibold`}
+			<TextInput style={tw`text-center bg-white p-4 my-2 rounded-2xl w-50 font-semibold`}
 			  placeholder="Password"
 			  value={password}
 			  onChangeText={text => setPassword(text)}
@@ -30,17 +30,18 @@ const navigation = useNavigation();
 			/>
 	
 			<TouchableOpacity 
+			style={tw`p-2 rounded-2xl my-2 bg-green-400`}
 			  onPress={() => {
 				handleLogin(email,password);
 
 			  }}
 			>
-			  <Text style={tw`text-center p-2 text-white font-bold m-1`}>Login</Text>
+			  <Text style={tw`text-center text-white font-bold m-2`}>Login</Text>
 			</TouchableOpacity>
 			<TouchableOpacity
 			onPress={() => navigation.navigate('Signup')} 
 			>
-			  <Text style={tw`text-center text-white font-bold m-1`}>Register</Text>
+			  <Text style={tw`text-center text-white font-bold m-2`}>Register</Text>
 			</TouchableOpacity>
 		  </KeyboardAvoidingView>
 			</ImageBackground>

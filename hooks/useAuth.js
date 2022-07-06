@@ -12,6 +12,9 @@ const [error, setError] = useState(null)
 const [user, setUser] = useState(null);
 const [loadingInitial, setLoadingInitial] = useState(true);
 const [loading, setLoading] = useState(false)
+const [name, setName] = useState(null);
+const [job, setJob] = useState(null);
+
 
 
 useEffect(
@@ -54,10 +57,14 @@ useEffect(
 		user,
 		loading,
 		error,
+		name,
+		job,
 		handleSignUp,
 		handleLogin,
 		logout,
-	}), [user, loading, error])
+		setName,
+		setJob,
+	}), [user, loading, error, name, job])
 
   return (
 	<AuthContext.Provider 

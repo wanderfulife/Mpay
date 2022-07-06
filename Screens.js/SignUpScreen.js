@@ -21,14 +21,14 @@ useLayoutEffect(() => {
 
   return (
 	<View style={tw`flex-1`}>
-			<ImageBackground resizeMode='cover' style={tw`flex-1`} source={require("../assets/IMG_9325.jpg")}>
-			<KeyboardAvoidingView behavior='padding' style={[tw`absolute bottom-50 `, {marginHorizontal: "23%"}]}>
-			<TextInput style={tw`text-center bg-white p-4 m-1 rounded-2xl w-50 font-semibold`}
+			<ImageBackground resizeMode='cover' style={tw`flex-1`} source={require("../assets/IMG_9478.jpg")}>
+			<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={10} style={[tw`absolute bottom-70 `, {marginHorizontal: "23%"}]}>
+			<TextInput style={tw`text-center bg-white p-4  rounded-2xl w-50 font-semibold`}
 			  placeholder="Email"
 			  value={email}
 			  onChangeText={text => setEmail(text)}
 			/>
-			<TextInput style={tw`text-center bg-white p-4 m-1 rounded-2xl w-50 font-semibold`}
+			<TextInput style={tw`text-center bg-white p-4 my-2 rounded-2xl w-50 font-semibold`}
 			  placeholder="Password"
 			  value={password}
 			  onChangeText={text => setPassword(text)}
@@ -36,13 +36,21 @@ useLayoutEffect(() => {
 			/>
 	
 			<TouchableOpacity
+			style={tw`p-2 rounded-2xl my-2 bg-green-400`}
 			  onPress={
 				  () => {
 					  handleSignUp(email,password)
 					}}
 			  
 			>
-			  <Text style={tw`text-center text-white font-bold m-1`}>Sign up</Text>
+			  <Text style={tw`text-center text-white font-bold m-2`}>Sign up</Text>
+			</TouchableOpacity>
+			<TouchableOpacity
+			  onPress={
+				() => navigation.navigate('Login')}
+			  
+			>
+			  <Text style={tw`text-center text-white font-bold m-2`}>Login</Text>
 			</TouchableOpacity>
 		  </KeyboardAvoidingView>
 			</ImageBackground>
