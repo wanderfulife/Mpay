@@ -40,9 +40,10 @@ const HomeScreen = () => {
         if (!snapshot.exists()) {
           navigation.navigate("Modal");
         }
-      }),
+      }),  
     []
   );
+
 
   useEffect(() => {
     const fetchProfilePicture = async () => {
@@ -52,12 +53,22 @@ const HomeScreen = () => {
     }
  
     fetchProfilePicture();
-  }, [db])
+  }, [])
 
+  
   useEffect(() => {
     let unsub;
 
     const fetchChards = async () => {
+
+      const employee = await getDocs(
+        collection(db, "employee")
+      ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
+
+      const employer = await getDocs(
+        collection(db, "employer")
+      ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
+
       const passes = await getDocs(
         collection(db, "users", user.uid, "passes")
       ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
@@ -66,14 +77,18 @@ const HomeScreen = () => {
         collection(db, "users", user.uid, "swipes")
       ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
 
+     
+      const employeeUserIds = employee.length > 0 ? employee : ["test"];
+      const employerUserIds = employer.length > 0 ? employer : ["test"]
       const passedUserIds = passes.length > 0 ? passes : ["test"];
       const swipedUserIds = swipes.length > 0 ? swipes : ["test"];
+
+      console.log(employeeUserIds)
 
       unsub = onSnapshot(
         query(
           collection(db, "users"),
-          where("id", "not-in", [...passedUserIds, ...swipedUserIds])
-        ),
+          where("id", "not-in", [...passedUserIds, ...swipedUserIds,...employeeUserIds])),
         (snapshot) => {
           setProfiles(
             snapshot.docs

@@ -17,25 +17,45 @@ import {
 
 const ModalScreenPics = () => {
 	const navigation = useNavigation();
-	const { user } = useAuth();
+	const { user, job, age, name } = useAuth();
 	const [image, setImage] = useState(null);
-	const [job, setJob] = useState();
-	const [age, setAge] = useState();
-	const [name, setName] = useState();
+
+	const profile = {
+		id: user.uid,
+		displayName: name,
+		photoURL: image,
+		job: job,
+		age: age,
+		employer: false,
+		timestamp: serverTimestamp(),
+	}
 
 	const updateUserProfile = () => {
-	  setDoc(doc(db, "users", user.uid), {
+		setDoc(doc(db, "users", user.uid), {
 		  id: user.uid,
+		  displayName: name,
 		  photoURL: image,
+		  job: job,
+		  age: age,
 		  timestamp: serverTimestamp(),
-	  })
-		.then(() => {
-		  navigation.navigate("Home");
 		})
-		.catch((error) => {
-		  alert(error.message);
-		});
-	};
+		  .then(() => {
+			if (profile.employer){
+				setDoc(doc(db, "employer", user.uid), profile);
+			} else {
+				setDoc(doc(db, "employee", user.uid), profile);
+			}
+			navigation.navigate("Home");
+		  })
+		  .catch((error) => {
+			alert(error.message);
+		  })	  
+	  };
+
+	  
+		
+	
+	
   
 	return (
 		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={10} style={tw`flex-1 items-center bg-white`}>

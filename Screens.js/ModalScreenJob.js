@@ -1,80 +1,55 @@
 import {
-	View,
-	Image,
-	Text,
-	TextInput,
-	TouchableOpacity,
-	Button,
-	KeyboardAvoidingView,
-  } from "react-native";
-  import { doc, serverTimestamp, setDoc } from "@firebase/firestore";
-  import { db } from "../firebase";
-  import React, { useState } from "react";
-  import tw from "twrnc";
-  import useAuth from "../hooks/useAuth";
-  import { useNavigation } from "@react-navigation/core";
-
-
+  View,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Button,
+  KeyboardAvoidingView,
+} from "react-native";
+import { doc, serverTimestamp, setDoc } from "@firebase/firestore";
+import { db } from "../firebase";
+import React, { useState } from "react";
+import tw from "twrnc";
+import useAuth from "../hooks/useAuth";
+import { useNavigation } from "@react-navigation/core";
 
 const ModalScreenJob = () => {
-	const navigation = useNavigation();
-	const { setJob } = useAuth();
-  
-	const incompleteForm = !job;
-  
-  
-	const updateUserProfile = () => {
-	  setDoc(doc(db, "users", user.uid), {
-		
-		id: user.uid,
-		job: job,
-		displayName: name,
-		timestamp: serverTimestamp(),
-	  })
-		.then(() => {
-		  navigation.navigate("ModalAge");
-		})
-		.catch((error) => {
-		  alert(error.message);
-		});
-	};
-  
-	return (
-		<KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} keyboardVerticalOffset={10} style={tw`flex-1 items-center bg-white`}>
-    
-		<Image
-		  style={tw`h-20 w-full`}
-		  resizeMode="contain"
-		  source={require("../assets/IMG_9482.jpg")}
-		/>
-		<Text style={tw`text-xl text-gray-500 p-2 font-bold`}>Step 2/4</Text>
-  
-	  
-	 
-		{/* shorturl.at/grvCK */}
-  
-	  
-		<TextInput
-		  onChangeText={setJob}
-		  style={tw`text-center text-xl p-12`}
-		  placeholder="Enter your occupation"
-		/>
-	
-  
-		<TouchableOpacity
-		  disabled={incompleteForm}
-		  onPress={updateUserProfile}
-		  style={[
-			tw`w-64  p-3 rounded-xl absolute bottom-70`,
-			incompleteForm ? tw`bg-gray-400` : tw`bg-red-400`,
-		  ]}
-		>
-		  <Text style={tw`text-center text-white text-xl`}>Next</Text>
-		</TouchableOpacity>
-	 
-	  </ KeyboardAvoidingView>
-	);
-  };
+  const navigation = useNavigation();
+  const { setJob } = useAuth();
 
+  const updateUserProfile = () => navigation.navigate("ModalAge");
 
-export default ModalScreenJob
+  return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      keyboardVerticalOffset={10}
+      style={tw`flex-1 items-center bg-white`}
+    >
+      <Image
+        style={tw`h-20 w-full`}
+        resizeMode="contain"
+        source={require("../assets/IMG_9482.jpg")}
+      />
+      <Text style={tw`text-xl text-gray-500 p-2 font-bold`}>Step 2/4</Text>
+
+      {/* shorturl.at/grvCK */}
+
+      <TextInput
+        onChangeText={setJob}
+        style={tw`text-center text-xl p-12`}
+        placeholder="Enter your occupation"
+      />
+
+      <TouchableOpacity
+        //   disabled={incompleteForm}
+        onPress={updateUserProfile}
+        style={tw`w-64  p-3 rounded-xl absolute bottom-70 bg-red-400`}
+      >
+        <Text style={tw`text-center text-white text-xl`}>Next</Text>
+      </TouchableOpacity>
+    </KeyboardAvoidingView>
+  );
+};
+
+export default ModalScreenJob;
