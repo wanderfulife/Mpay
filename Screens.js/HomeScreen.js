@@ -34,6 +34,8 @@ const HomeScreen = () => {
   const swipeRef = useRef(null);
   const [profilePics, setProfilePics] = useState(null);
 
+
+
   useLayoutEffect(
     () =>
       onSnapshot(doc(db, "users", user.uid), (snapshot) => {
@@ -53,11 +55,10 @@ const HomeScreen = () => {
     }
  
     fetchProfilePicture();
-  }, [])
+  }, [db])
 
   
   useEffect(() => {
-    let unsub;
 
     const fetchChards = async () => {
 
@@ -77,34 +78,52 @@ const HomeScreen = () => {
         collection(db, "users", user.uid, "swipes")
       ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
 
+      const search =  await (await getDoc(doc(db, "users", user.uid)))?.data()?.research;
      
       const employeeUserIds = employee.length > 0 ? employee : ["test"];
       const employerUserIds = employer.length > 0 ? employer : ["test"]
       const passedUserIds = passes.length > 0 ? passes : ["test"];
       const swipedUserIds = swipes.length > 0 ? swipes : ["test"];
 
-      console.log(employeeUserIds)
-
-      unsub = onSnapshot(
-        query(
-          collection(db, "users"),
-          where("id", "not-in", [...passedUserIds, ...swipedUserIds,...employeeUserIds])),
-        (snapshot) => {
-          setProfiles(
-            snapshot.docs
-              .filter((doc) => doc.id != user.uid)
-              .map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-              }))
-          );
-        }
-      );
+      if (search === "employee") {
+        onSnapshot(
+          query(
+            collection(db, "users"),
+            where("id", "not-in", [...passedUserIds, ...swipedUserIds, ...employeeUserIds].splice(0, 10))),
+          (snapshot) => {
+            setProfiles(
+              snapshot.docs
+                .filter((doc) => doc.id != user.uid)
+                .map((doc) => ({
+                  id: doc.id,
+                  ...doc.data(),
+                }))
+            );
+          }
+        );
+      } else if (search === "employer") {
+       onSnapshot(
+          query(
+            collection(db, "users"),
+            where("id", "not-in", [...passedUserIds, ...swipedUserIds,...employerUserIds])),
+          (snapshot) => {
+            setProfiles(
+              snapshot.docs
+                .filter((doc) => doc.id != user.uid)
+                .map((doc) => ({
+                  id: doc.id,
+                  ...doc.data(),
+                }))
+            );
+          }
+        );
+      }
     };
 
     fetchChards();
-    return unsub;
   }, [db]);
+
+
 
   const swipeLeft = (cardIndex) => {
     if (!profiles[cardIndex]) return;

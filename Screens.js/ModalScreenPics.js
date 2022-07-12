@@ -17,7 +17,7 @@ import {
 
 const ModalScreenPics = () => {
 	const navigation = useNavigation();
-	const { user, job, age, name } = useAuth();
+	const { user, job, age, name, choice } = useAuth();
 	const [image, setImage] = useState(null);
 
 	const profile = {
@@ -26,7 +26,7 @@ const ModalScreenPics = () => {
 		photoURL: image,
 		job: job,
 		age: age,
-		employer: false,
+		research: choice,
 		timestamp: serverTimestamp(),
 	}
 
@@ -37,10 +37,11 @@ const ModalScreenPics = () => {
 		  photoURL: image,
 		  job: job,
 		  age: age,
+		  research: choice,
 		  timestamp: serverTimestamp(),
 		})
 		  .then(() => {
-			if (profile.employer){
+			if (profile.research === "employer"){
 				setDoc(doc(db, "employer", user.uid), profile);
 			} else {
 				setDoc(doc(db, "employee", user.uid), profile);
@@ -65,7 +66,7 @@ const ModalScreenPics = () => {
 			resizeMode="contain"
 			source={require("../assets/IMG_9482.jpg")}
 		  />
-		  <Text style={tw`text-xl text-gray-500 p-2 font-bold`}>Step 4/4</Text>
+		  <Text style={tw`text-xl text-gray-500 p-2 font-bold`}>Step 5 / 5</Text>
 	
 		
 	   

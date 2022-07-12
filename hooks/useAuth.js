@@ -15,6 +15,7 @@ const [loading, setLoading] = useState(false)
 const [name, setName] = useState(null);
 const [job, setJob] = useState(null);
 const [age, setAge] = useState(null);
+const [choice, setChoice] = useState("Unknown")
 
 
 
@@ -62,13 +63,15 @@ useEffect(
 		name,
 		job,
 		age,
+		choice,
 		handleSignUp,
 		handleLogin,
 		logout,
 		setName,
 		setJob,
 		setAge,
-	}), [user, loading, error, name, job, age])
+		setChoice,
+	}), [user, loading, error, name, job, age, choice])
 
   return (
 	<AuthContext.Provider 

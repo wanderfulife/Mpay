@@ -15,7 +15,7 @@ function ModalScreenAge() {
   const navigation = useNavigation();
   const { setAge } = useAuth();
 
-  const updateUserProfile = () => navigation.navigate("ModalPics");
+  const updateUserProfile = () => navigation.navigate("ModalSearch");
 
   return (
     <KeyboardAvoidingView
@@ -28,7 +28,7 @@ function ModalScreenAge() {
         resizeMode="contain"
         source={require("../assets/IMG_9482.jpg")}
       />
-      <Text style={tw`text-xl text-gray-500 p-2 font-bold`}>Step 3/4</Text>
+      <Text style={tw`text-xl text-gray-500 p-2 font-bold`}>Step 3 / 5</Text>
 
       {/* shorturl.at/grvCK */}
 
