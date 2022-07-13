@@ -76,8 +76,7 @@ const HomeScreen = () => {
         collection(db, "users", user.uid, "swipes")
       ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
 
-      const search = await (await getDoc(doc(db, "users", user.uid)))?.data()
-        ?.research;
+      const search = await (await getDoc(doc(db, "users", user.uid)))?.data()?.research;
 
       const employeeUserIds = employee.length > 0 ? employee : ["test"];
       const employerUserIds = employer.length > 0 ? employer : ["test"];
@@ -133,6 +132,8 @@ const HomeScreen = () => {
     };
     fetchChards();
   }, [db]);
+
+
 
   const swipeLeft = (cardIndex) => {
     if (!profiles[cardIndex]) return;
