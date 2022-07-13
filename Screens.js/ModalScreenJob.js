@@ -31,7 +31,7 @@ const ModalScreenJob = () => {
         resizeMode="contain"
         source={require("../assets/IMG_9482.jpg")}
       />
-      <Text style={tw`text-xl text-gray-500 p-2 font-bold`}>Step 2/4</Text>
+      <Text style={tw`text-xl text-gray-500 p-2 font-bold`}>Step 2 / 5</Text>
 
       {/* shorturl.at/grvCK */}
 

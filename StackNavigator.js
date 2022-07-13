@@ -11,6 +11,8 @@ import MessageScreen from './Screens.js/MessageScreen';
 import ModalScreenPics from './Screens.js/ModalScreenPics';
 import ModalScreenJob from './Screens.js/ModalScreenJob';
 import ModalScreenAge from './Screens.js/ModalScreenAge';
+import ModalScreenSearch from './Screens.js/ModalScreenSearch';
+
 
 
 
@@ -37,11 +39,8 @@ const StackNavigator = () => {
 				<Stack.Screen name="Modal" component={ModalScreen} />
 				<Stack.Screen name="ModalJob" component={ModalScreenJob} />
 				<Stack.Screen name="ModalAge" component={ModalScreenAge} />
+				<Stack.Screen name="ModalSearch" component={ModalScreenSearch} />
 				<Stack.Screen name="ModalPics" component={ModalScreenPics} />
-
-
-
-
 			</Stack.Group>
 			<Stack.Group screenOptions={{ presentation: "transparentModal"}}>
 				<Stack.Screen name="Match" component={MatchedScreen} />

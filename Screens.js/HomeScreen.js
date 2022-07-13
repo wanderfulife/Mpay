@@ -34,40 +34,39 @@ const HomeScreen = () => {
   const swipeRef = useRef(null);
   const [profilePics, setProfilePics] = useState(null);
 
+  const data = getDoc(doc(db, "users", user.uid));
+
   useLayoutEffect(
     () =>
       onSnapshot(doc(db, "users", user.uid), (snapshot) => {
         if (!snapshot.exists()) {
           navigation.navigate("Modal");
         }
-      }),  
+      }),
     []
   );
 
-
   useEffect(() => {
     const fetchProfilePicture = async () => {
-        const pics =  await (await getDoc(doc(db, "users", user.uid))).data()
-        const passedPics = pics?.photoURL ? pics.photoURL : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACQCAMAAADtCnPsAAAANlBMVEWhoaHu7u6enp7x8fGxsbGbm5v09PTp6enk5OTLy8vAwMDW1tbb29u8vLy1tbWtra2np6eVlZXlN6PXAAAEUElEQVR4nO2bB7ajMAxFbQs3+ux/s2NImeSHoicw4c/hLYBzI6tYsqL0iaS+DfCqC2ZOF8ycLpg5/S8wpIkcaR+SvP8qDPkq1GXXq66JVV0HT0TfgnF133bWGDWq74q2ibV2bhOQFKax6g5ylzHWWlPE2st5hDDNO8kLkumaID0wEQxFO81yA7JFLaMRwKTf3S2wjPZpgwQHhnE+NsUyy4CjKpcdhkJjnjG0KFvitsFgKPYcECkNBlOtH9AWGgiGIsCSHKcCaRAY0ksRPUUTMsLMpbpZmCIfjO8xFvigABiqQcMMygZTwZZRFjINckwBh1Ed8P3sx2SQmonALNbqOZgWqFEAjGsFllEGuB0jMCsXhxkYwIURGAmLMkCFQnxGBgNk4ewwSvGdJj8MUC3zw9g6B4wTJGAFVYRfC1NIkl4umFIGw69OuWtTLgfWkqqdYLKEtug+ozIlPe2RrumhTOVAk8SDTZMJppLcrmKWqp1oJDDAcASBcSRJe4E/V0PyTPEHR0mhzU/BfBiRxwwybQaYKMp5Q3CfCYYdTwfAKHY9QHxGBgO0cUA0BRmM5Wc9qIk7UdWWnlOeqr02GJ+UAYYiV9XeA0ZWtYFpEQQjalbyTK5ESdiUeSZXWjIJ5tcCGMaV6MC+RT6PPn51Fjip3gIZTwDjI/8BwcQKex2EnwUp8E8KfajEH0z5M6Me/TQOwx4HmwZ9MxVYhlu8gVmIGIbd//fw5ojkkZ0XT8g0egMML57wUxLtQhDHhU2PP/mLYGrOKaHvyEIYlmmgJ7gtMG591AhdHTbBMOaeQLd0AIxkn+f3wzB85kCY9QYKe13fBLMe2gdGE6PPNR2+AyapTb5dZxl2wA64QqTmiXu7yrlZNKJ44N0fWoQQwGisw83ZHRDIYpBhPdprI2d0o1FR89dOgWmnC2zXfZE1TeWZOYcLQzo0/O3Fd+uYvgyaYx4ejNNVgTTZHzy2iH59i5oBQ7ouleCAfphHtatL1KswjqpWbSR58HRRL5pnGWYwit1yPj95bFsveM8CDJGPxdbj+cBJ5vFzwT4HQ87H1gqfu5aVgr2expmESXFcFZt9dl7JPNWUeT5hhuTWqh0dZVJWleHDmX/CJD/peEviW2VsX/34h8I7jPNln9smbzjlG84rjAvlcSQPni7+w/kHQxpYnd8RxxTPa8YThkKRJZAZOM/L8gOG6n1yvojmsYyqHiyHRNAcTfEKQ0G05rCb7K3lu1tGtvW2n8x4uxhhGI18bpjmCaO/jDIo3GHkWw77afSa0TKi5fCd1d8t478NMmhohdWGlaFdNUz3lXiBdGeZfjwm4Wrt3rJ+9BnZyubesjUlmPBtjJtScCves8QBMs0AI9zR2VumTcd0hvw7yBQXzLRuMKfIeXcYfSoY9K+amXQ+GNbD8AG6YOZ0y8DnuEHcLXMWmFNZ5lww7oKZ1O1ydcF8ypQXzLRSS3keGHsqmEh/ARcOOeT3W9EFAAAAAElFTkSuQmCC';
-        setProfilePics(passedPics)
-    }
- 
+      const data = (await getDoc(doc(db, "users", user.uid))).data();
+      const passedPics = data?.photoURL
+        ? data.photoURL
+        : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACQCAMAAADtCnPsAAAANlBMVEWhoaHu7u6enp7x8fGxsbGbm5v09PTp6enk5OTLy8vAwMDW1tbb29u8vLy1tbWtra2np6eVlZXlN6PXAAAEUElEQVR4nO2bB7ajMAxFbQs3+ux/s2NImeSHoicw4c/hLYBzI6tYsqL0iaS+DfCqC2ZOF8ycLpg5/S8wpIkcaR+SvP8qDPkq1GXXq66JVV0HT0TfgnF133bWGDWq74q2ibV2bhOQFKax6g5ylzHWWlPE2st5hDDNO8kLkumaID0wEQxFO81yA7JFLaMRwKTf3S2wjPZpgwQHhnE+NsUyy4CjKpcdhkJjnjG0KFvitsFgKPYcECkNBlOtH9AWGgiGIsCSHKcCaRAY0ksRPUUTMsLMpbpZmCIfjO8xFvigABiqQcMMygZTwZZRFjINckwBh1Ed8P3sx2SQmonALNbqOZgWqFEAjGsFllEGuB0jMCsXhxkYwIURGAmLMkCFQnxGBgNk4ewwSvGdJj8MUC3zw9g6B4wTJGAFVYRfC1NIkl4umFIGw69OuWtTLgfWkqqdYLKEtug+ozIlPe2RrumhTOVAk8SDTZMJppLcrmKWqp1oJDDAcASBcSRJe4E/V0PyTPEHR0mhzU/BfBiRxwwybQaYKMp5Q3CfCYYdTwfAKHY9QHxGBgO0cUA0BRmM5Wc9qIk7UdWWnlOeqr02GJ+UAYYiV9XeA0ZWtYFpEQQjalbyTK5ESdiUeSZXWjIJ5tcCGMaV6MC+RT6PPn51Fjip3gIZTwDjI/8BwcQKex2EnwUp8E8KfajEH0z5M6Me/TQOwx4HmwZ9MxVYhlu8gVmIGIbd//fw5ojkkZ0XT8g0egMML57wUxLtQhDHhU2PP/mLYGrOKaHvyEIYlmmgJ7gtMG591AhdHTbBMOaeQLd0AIxkn+f3wzB85kCY9QYKe13fBLMe2gdGE6PPNR2+AyapTb5dZxl2wA64QqTmiXu7yrlZNKJ44N0fWoQQwGisw83ZHRDIYpBhPdprI2d0o1FR89dOgWmnC2zXfZE1TeWZOYcLQzo0/O3Fd+uYvgyaYx4ejNNVgTTZHzy2iH59i5oBQ7ouleCAfphHtatL1KswjqpWbSR58HRRL5pnGWYwit1yPj95bFsveM8CDJGPxdbj+cBJ5vFzwT4HQ87H1gqfu5aVgr2expmESXFcFZt9dl7JPNWUeT5hhuTWqh0dZVJWleHDmX/CJD/peEviW2VsX/34h8I7jPNln9smbzjlG84rjAvlcSQPni7+w/kHQxpYnd8RxxTPa8YThkKRJZAZOM/L8gOG6n1yvojmsYyqHiyHRNAcTfEKQ0G05rCb7K3lu1tGtvW2n8x4uxhhGI18bpjmCaO/jDIo3GHkWw77afSa0TKi5fCd1d8t478NMmhohdWGlaFdNUz3lXiBdGeZfjwm4Wrt3rJ+9BnZyubesjUlmPBtjJtScCves8QBMs0AI9zR2VumTcd0hvw7yBQXzLRuMKfIeXcYfSoY9K+amXQ+GNbD8AG6YOZ0y8DnuEHcLXMWmFNZ5lww7oKZ1O1ydcF8ypQXzLRSS3keGHsqmEh/ARcOOeT3W9EFAAAAAElFTkSuQmCC";
+      setProfilePics(passedPics);
+    };
+
     fetchProfilePicture();
-  }, [])
+  }, [data]);
 
-  
   useEffect(() => {
-    let unsub;
-
     const fetchChards = async () => {
+      const employee = await getDocs(collection(db, "employee")).then(
+        (snapshot) => snapshot.docs.map((doc) => doc.id)
+      );
 
-      const employee = await getDocs(
-        collection(db, "employee")
-      ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
-
-      const employer = await getDocs(
-        collection(db, "employer")
-      ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
+      const employer = await getDocs(collection(db, "employer")).then(
+        (snapshot) => snapshot.docs.map((doc) => doc.id)
+      );
 
       const passes = await getDocs(
         collection(db, "users", user.uid, "passes")
@@ -77,33 +76,62 @@ const HomeScreen = () => {
         collection(db, "users", user.uid, "swipes")
       ).then((snapshot) => snapshot.docs.map((doc) => doc.id));
 
-     
+      const search = await (await getDoc(doc(db, "users", user.uid)))?.data()
+        ?.research;
+
       const employeeUserIds = employee.length > 0 ? employee : ["test"];
-      const employerUserIds = employer.length > 0 ? employer : ["test"]
+      const employerUserIds = employer.length > 0 ? employer : ["test"];
       const passedUserIds = passes.length > 0 ? passes : ["test"];
       const swipedUserIds = swipes.length > 0 ? swipes : ["test"];
 
-      console.log(employeeUserIds)
-
-      unsub = onSnapshot(
-        query(
-          collection(db, "users"),
-          where("id", "not-in", [...passedUserIds, ...swipedUserIds,...employeeUserIds])),
-        (snapshot) => {
-          setProfiles(
-            snapshot.docs
-              .filter((doc) => doc.id != user.uid)
-              .map((doc) => ({
-                id: doc.id,
-                ...doc.data(),
-              }))
-          );
-        }
-      );
+      if (search === "employee") {
+        onSnapshot(
+          query(
+            collection(db, "users"),
+            where(
+              "id",
+              "not-in",
+              [...passedUserIds, ...swipedUserIds, ...employeeUserIds].splice(
+                0,
+                10
+              )
+            )
+          ),
+          (snapshot) => {
+            setProfiles(
+              snapshot.docs
+                .filter((doc) => doc.id != user.uid)
+                .map((doc) => ({
+                  id: doc.id,
+                  ...doc.data(),
+                }))
+            );
+          }
+        );
+      } else if (search === "employer") {
+        onSnapshot(
+          query(
+            collection(db, "users"),
+            where("id", "not-in", [
+              ...passedUserIds,
+              ...swipedUserIds,
+              ...employerUserIds,
+            ])
+          ),
+          (snapshot) => {
+            setProfiles(
+              snapshot.docs
+                .filter((doc) => doc.id != user.uid)
+                .map((doc) => ({
+                  id: doc.id,
+                  ...doc.data(),
+                }))
+            );
+          }
+        );
+      }
     };
-
     fetchChards();
-    return unsub;
   }, [db]);
 
   const swipeLeft = (cardIndex) => {
@@ -182,13 +210,6 @@ const HomeScreen = () => {
         </TouchableOpacity>
       </View>
 
-      {/* End of header */}
-
-      {/* Cards */}
-
-      {/* <Text>I am the HomeScreen</Text>
-	  <Button title="Go to chat screen" onPress={() => navigation.navigate("Chat") }/>
-	  <Button title="Logout" onPress={logout}/> */}
       <View style={tw`flex-1 -mt-6`}>
         <Swiper
           ref={swipeRef}
