@@ -29,10 +29,10 @@ import generateId from "../lib/generateId";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const { user, logout } = useAuth();
+  const { user, logout, imageUrl } = useAuth();
   const [profiles, setProfiles] = useState([]);
   const swipeRef = useRef(null);
-  const [profilePics, setProfilePics] = useState(null);
+  // const [profilePics, setProfilePics] = useState(null);
 
   const data = getDoc(doc(db, "users", user.uid));
 
@@ -46,17 +46,17 @@ const HomeScreen = () => {
     []
   );
 
-  useEffect(() => {
-    const fetchProfilePicture = async () => {
-      const data = (await getDoc(doc(db, "users", user.uid))).data();
-      const passedPics = data?.photoURL
-        ? data.photoURL
-        : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACQCAMAAADtCnPsAAAANlBMVEWhoaHu7u6enp7x8fGxsbGbm5v09PTp6enk5OTLy8vAwMDW1tbb29u8vLy1tbWtra2np6eVlZXlN6PXAAAEUElEQVR4nO2bB7ajMAxFbQs3+ux/s2NImeSHoicw4c/hLYBzI6tYsqL0iaS+DfCqC2ZOF8ycLpg5/S8wpIkcaR+SvP8qDPkq1GXXq66JVV0HT0TfgnF133bWGDWq74q2ibV2bhOQFKax6g5ylzHWWlPE2st5hDDNO8kLkumaID0wEQxFO81yA7JFLaMRwKTf3S2wjPZpgwQHhnE+NsUyy4CjKpcdhkJjnjG0KFvitsFgKPYcECkNBlOtH9AWGgiGIsCSHKcCaRAY0ksRPUUTMsLMpbpZmCIfjO8xFvigABiqQcMMygZTwZZRFjINckwBh1Ed8P3sx2SQmonALNbqOZgWqFEAjGsFllEGuB0jMCsXhxkYwIURGAmLMkCFQnxGBgNk4ewwSvGdJj8MUC3zw9g6B4wTJGAFVYRfC1NIkl4umFIGw69OuWtTLgfWkqqdYLKEtug+ozIlPe2RrumhTOVAk8SDTZMJppLcrmKWqp1oJDDAcASBcSRJe4E/V0PyTPEHR0mhzU/BfBiRxwwybQaYKMp5Q3CfCYYdTwfAKHY9QHxGBgO0cUA0BRmM5Wc9qIk7UdWWnlOeqr02GJ+UAYYiV9XeA0ZWtYFpEQQjalbyTK5ESdiUeSZXWjIJ5tcCGMaV6MC+RT6PPn51Fjip3gIZTwDjI/8BwcQKex2EnwUp8E8KfajEH0z5M6Me/TQOwx4HmwZ9MxVYhlu8gVmIGIbd//fw5ojkkZ0XT8g0egMML57wUxLtQhDHhU2PP/mLYGrOKaHvyEIYlmmgJ7gtMG591AhdHTbBMOaeQLd0AIxkn+f3wzB85kCY9QYKe13fBLMe2gdGE6PPNR2+AyapTb5dZxl2wA64QqTmiXu7yrlZNKJ44N0fWoQQwGisw83ZHRDIYpBhPdprI2d0o1FR89dOgWmnC2zXfZE1TeWZOYcLQzo0/O3Fd+uYvgyaYx4ejNNVgTTZHzy2iH59i5oBQ7ouleCAfphHtatL1KswjqpWbSR58HRRL5pnGWYwit1yPj95bFsveM8CDJGPxdbj+cBJ5vFzwT4HQ87H1gqfu5aVgr2expmESXFcFZt9dl7JPNWUeT5hhuTWqh0dZVJWleHDmX/CJD/peEviW2VsX/34h8I7jPNln9smbzjlG84rjAvlcSQPni7+w/kHQxpYnd8RxxTPa8YThkKRJZAZOM/L8gOG6n1yvojmsYyqHiyHRNAcTfEKQ0G05rCb7K3lu1tGtvW2n8x4uxhhGI18bpjmCaO/jDIo3GHkWw77afSa0TKi5fCd1d8t478NMmhohdWGlaFdNUz3lXiBdGeZfjwm4Wrt3rJ+9BnZyubesjUlmPBtjJtScCves8QBMs0AI9zR2VumTcd0hvw7yBQXzLRuMKfIeXcYfSoY9K+amXQ+GNbD8AG6YOZ0y8DnuEHcLXMWmFNZ5lww7oKZ1O1ydcF8ypQXzLRSS3keGHsqmEh/ARcOOeT3W9EFAAAAAElFTkSuQmCC";
-      setProfilePics(passedPics);
-    };
+  // useEffect(() => {
+  //   const fetchProfilePicture = async () => {
+  //     const data = (await getDoc(doc(db, "users", user.uid))).data();
+  //     const passedPics = data?.photoURL
+  //       ? data.photoURL
+  //       : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACQCAMAAADtCnPsAAAANlBMVEWhoaHu7u6enp7x8fGxsbGbm5v09PTp6enk5OTLy8vAwMDW1tbb29u8vLy1tbWtra2np6eVlZXlN6PXAAAEUElEQVR4nO2bB7ajMAxFbQs3+ux/s2NImeSHoicw4c/hLYBzI6tYsqL0iaS+DfCqC2ZOF8ycLpg5/S8wpIkcaR+SvP8qDPkq1GXXq66JVV0HT0TfgnF133bWGDWq74q2ibV2bhOQFKax6g5ylzHWWlPE2st5hDDNO8kLkumaID0wEQxFO81yA7JFLaMRwKTf3S2wjPZpgwQHhnE+NsUyy4CjKpcdhkJjnjG0KFvitsFgKPYcECkNBlOtH9AWGgiGIsCSHKcCaRAY0ksRPUUTMsLMpbpZmCIfjO8xFvigABiqQcMMygZTwZZRFjINckwBh1Ed8P3sx2SQmonALNbqOZgWqFEAjGsFllEGuB0jMCsXhxkYwIURGAmLMkCFQnxGBgNk4ewwSvGdJj8MUC3zw9g6B4wTJGAFVYRfC1NIkl4umFIGw69OuWtTLgfWkqqdYLKEtug+ozIlPe2RrumhTOVAk8SDTZMJppLcrmKWqp1oJDDAcASBcSRJe4E/V0PyTPEHR0mhzU/BfBiRxwwybQaYKMp5Q3CfCYYdTwfAKHY9QHxGBgO0cUA0BRmM5Wc9qIk7UdWWnlOeqr02GJ+UAYYiV9XeA0ZWtYFpEQQjalbyTK5ESdiUeSZXWjIJ5tcCGMaV6MC+RT6PPn51Fjip3gIZTwDjI/8BwcQKex2EnwUp8E8KfajEH0z5M6Me/TQOwx4HmwZ9MxVYhlu8gVmIGIbd//fw5ojkkZ0XT8g0egMML57wUxLtQhDHhU2PP/mLYGrOKaHvyEIYlmmgJ7gtMG591AhdHTbBMOaeQLd0AIxkn+f3wzB85kCY9QYKe13fBLMe2gdGE6PPNR2+AyapTb5dZxl2wA64QqTmiXu7yrlZNKJ44N0fWoQQwGisw83ZHRDIYpBhPdprI2d0o1FR89dOgWmnC2zXfZE1TeWZOYcLQzo0/O3Fd+uYvgyaYx4ejNNVgTTZHzy2iH59i5oBQ7ouleCAfphHtatL1KswjqpWbSR58HRRL5pnGWYwit1yPj95bFsveM8CDJGPxdbj+cBJ5vFzwT4HQ87H1gqfu5aVgr2expmESXFcFZt9dl7JPNWUeT5hhuTWqh0dZVJWleHDmX/CJD/peEviW2VsX/34h8I7jPNln9smbzjlG84rjAvlcSQPni7+w/kHQxpYnd8RxxTPa8YThkKRJZAZOM/L8gOG6n1yvojmsYyqHiyHRNAcTfEKQ0G05rCb7K3lu1tGtvW2n8x4uxhhGI18bpjmCaO/jDIo3GHkWw77afSa0TKi5fCd1d8t478NMmhohdWGlaFdNUz3lXiBdGeZfjwm4Wrt3rJ+9BnZyubesjUlmPBtjJtScCves8QBMs0AI9zR2VumTcd0hvw7yBQXzLRuMKfIeXcYfSoY9K+amXQ+GNbD8AG6YOZ0y8DnuEHcLXMWmFNZ5lww7oKZ1O1ydcF8ypQXzLRSS3keGHsqmEh/ARcOOeT3W9EFAAAAAElFTkSuQmCC";
+  //     setProfilePics(passedPics);
+  //   };
 
-    fetchProfilePicture();
-  }, [data]);
+  //   fetchProfilePicture();
+  // }, [data]);
 
   useEffect(() => {
     const fetchChards = async () => {
@@ -193,10 +193,19 @@ const HomeScreen = () => {
       {/* header */}
       <View style={tw`flex-row items-center justify-between px-5`}>
         <TouchableOpacity onPress={logout}>
-          <Image
+          {imageUrl ? (
+            <Image
+            style={tw`h-10 w-10 rounded-full`}
+            source={{ uri: imageUrl }}
+          />
+          ) : (<Image
+            style={tw`h-10 w-10 rounded-full`}
+            source={{ uri: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIwAAACQCAMAAADtCnPsAAAANlBMVEWhoaHu7u6enp7x8fGxsbGbm5v09PTp6enk5OTLy8vAwMDW1tbb29u8vLy1tbWtra2np6eVlZXlN6PXAAAEUElEQVR4nO2bB7ajMAxFbQs3+ux/s2NImeSHoicw4c/hLYBzI6tYsqL0iaS+DfCqC2ZOF8ycLpg5/S8wpIkcaR+SvP8qDPkq1GXXq66JVV0HT0TfgnF133bWGDWq74q2ibV2bhOQFKax6g5ylzHWWlPE2st5hDDNO8kLkumaID0wEQxFO81yA7JFLaMRwKTf3S2wjPZpgwQHhnE+NsUyy4CjKpcdhkJjnjG0KFvitsFgKPYcECkNBlOtH9AWGgiGIsCSHKcCaRAY0ksRPUUTMsLMpbpZmCIfjO8xFvigABiqQcMMygZTwZZRFjINckwBh1Ed8P3sx2SQmonALNbqOZgWqFEAjGsFllEGuB0jMCsXhxkYwIURGAmLMkCFQnxGBgNk4ewwSvGdJj8MUC3zw9g6B4wTJGAFVYRfC1NIkl4umFIGw69OuWtTLgfWkqqdYLKEtug+ozIlPe2RrumhTOVAk8SDTZMJppLcrmKWqp1oJDDAcASBcSRJe4E/V0PyTPEHR0mhzU/BfBiRxwwybQaYKMp5Q3CfCYYdTwfAKHY9QHxGBgO0cUA0BRmM5Wc9qIk7UdWWnlOeqr02GJ+UAYYiV9XeA0ZWtYFpEQQjalbyTK5ESdiUeSZXWjIJ5tcCGMaV6MC+RT6PPn51Fjip3gIZTwDjI/8BwcQKex2EnwUp8E8KfajEH0z5M6Me/TQOwx4HmwZ9MxVYhlu8gVmIGIbd//fw5ojkkZ0XT8g0egMML57wUxLtQhDHhU2PP/mLYGrOKaHvyEIYlmmgJ7gtMG591AhdHTbBMOaeQLd0AIxkn+f3wzB85kCY9QYKe13fBLMe2gdGE6PPNR2+AyapTb5dZxl2wA64QqTmiXu7yrlZNKJ44N0fWoQQwGisw83ZHRDIYpBhPdprI2d0o1FR89dOgWmnC2zXfZE1TeWZOYcLQzo0/O3Fd+uYvgyaYx4ejNNVgTTZHzy2iH59i5oBQ7ouleCAfphHtatL1KswjqpWbSR58HRRL5pnGWYwit1yPj95bFsveM8CDJGPxdbj+cBJ5vFzwT4HQ87H1gqfu5aVgr2expmESXFcFZt9dl7JPNWUeT5hhuTWqh0dZVJWleHDmX/CJD/peEviW2VsX/34h8I7jPNln9smbzjlG84rjAvlcSQPni7+w/kHQxpYnd8RxxTPa8YThkKRJZAZOM/L8gOG6n1yvojmsYyqHiyHRNAcTfEKQ0G05rCb7K3lu1tGtvW2n8x4uxhhGI18bpjmCaO/jDIo3GHkWw77afSa0TKi5fCd1d8t478NMmhohdWGlaFdNUz3lXiBdGeZfjwm4Wrt3rJ+9BnZyubesjUlmPBtjJtScCves8QBMs0AI9zR2VumTcd0hvw7yBQXzLRuMKfIeXcYfSoY9K+amXQ+GNbD8AG6YOZ0y8DnuEHcLXMWmFNZ5lww7oKZ1O1ydcF8ypQXzLRSS3keGHsqmEh/ARcOOeT3W9EFAAAAAElFTkSuQmCC" }}
+          />)}
+          {/* <Image
             style={tw`h-10 w-10 rounded-full`}
             source={{ uri: profilePics }}
-          />
+          /> */}
         </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate("Modal")}>

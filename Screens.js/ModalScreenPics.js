@@ -15,8 +15,8 @@ import * as ImagePicker from "expo-image-picker";
 
 const ModalScreenPics = () => {
   const navigation = useNavigation();
-  const { user, job, age, name, choice } = useAuth();
-  const [imageUrl, setimageUrl] = useState("");
+  const { user, job, age, name, choice, imageUrl, setimageUrl } = useAuth();
+
 
   const profile = {
     id: user.uid,
