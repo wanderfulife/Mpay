@@ -15,8 +15,8 @@ import * as ImagePicker from "expo-image-picker";
 
 const ModalScreenPics = () => {
   const navigation = useNavigation();
-  const { user, job, age, name, choice, imageUrl, setimageUrl } = useAuth();
-
+  const { user, job, age, name, choice, imageUrl, setimageUrl, setRefresh } =
+    useAuth();
 
   const profile = {
     id: user.uid,
@@ -41,8 +41,10 @@ const ModalScreenPics = () => {
       .then(() => {
         if (profile.research === "employer") {
           setDoc(doc(db, "employer", user.uid), profile);
+          setRefresh((prev) => !prev);
         } else {
           setDoc(doc(db, "employee", user.uid), profile);
+          setRefresh((prev) => !prev);
         }
         navigation.navigate("Home");
       })
@@ -60,8 +62,7 @@ const ModalScreenPics = () => {
       quality: 1,
     });
 
-	setimageUrl(result.uri);
-
+    setimageUrl(result.uri);
 
     if (!result.cancelled) {
       reference = ref(storage, user.uid);

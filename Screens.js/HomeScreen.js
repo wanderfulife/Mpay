@@ -29,7 +29,7 @@ import generateId from "../lib/generateId";
 
 const HomeScreen = () => {
   const navigation = useNavigation();
-  const { user, logout, imageUrl } = useAuth();
+  const { user, logout, imageUrl, refresh } = useAuth();
   const [profiles, setProfiles] = useState([]);
   const swipeRef = useRef(null);
   // const [profilePics, setProfilePics] = useState(null);
@@ -56,7 +56,7 @@ const HomeScreen = () => {
   //   };
 
   //   fetchProfilePicture();
-  // }, [data]);
+  // }, []);
 
   useEffect(() => {
     const fetchChards = async () => {
@@ -131,7 +131,7 @@ const HomeScreen = () => {
       }
     };
     fetchChards();
-  }, [db]);
+  }), [refresh];
 
 
 
